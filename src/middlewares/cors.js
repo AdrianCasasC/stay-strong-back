@@ -1,25 +1,23 @@
-import cors from 'cors'
+import cors from 'cors';
 
 const ACCEPTED_ORIGINS = [
-  'http://localhost:8080',
-  'http://localhost:4200',
-  'https://orvelian.com',
-  'https://orvelian-back.netlify.app'
-]
+	'http://localhost:4200',
+	'https://stay-strong-front.netlify.app', // Cambiar por url de PRO
+];
 
 export const corsMiddleware = ({ acceptedOrigins = ACCEPTED_ORIGINS } = {}) =>
-  cors({
-    origin: (origin, callback) => {
-      if (acceptedOrigins.includes(origin)) {
-        return callback(null, true)
-      }
+	cors({
+		origin: (origin, callback) => {
+			if (acceptedOrigins.includes(origin)) {
+				return callback(null, true);
+			}
 
-      if (!origin) {
-        return callback(null, true)
-      }
+			if (!origin) {
+				return callback(null, true);
+			}
 
-      return callback(new Error('Not allowed by CORS'))
-    },
-    credentials: true,
-    allowedHeaders: ['Content-Type', 'Authorization']
-  })
+			return callback(new Error('Not allowed by CORS'));
+		},
+		credentials: true,
+		allowedHeaders: ['Content-Type', 'Authorization'],
+	});
