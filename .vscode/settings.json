@@ -1,0 +1,24 @@
+{
+    "IDX.aI.enableInlineCompletion": true,
+    "IDX.aI.enableCodebaseIndexing": true,
+    "workbench.colorCustomizations": {
+        "activityBar.activeBackground": "#cd00da",
+        "activityBar.background": "#cd00da",
+        "activityBar.foreground": "#e7e7e7",
+        "activityBar.inactiveForeground": "#e7e7e799",
+        "activityBarBadge.background": "#bfb400",
+        "activityBarBadge.foreground": "#15202b",
+        "commandCenter.border": "#e7e7e799",
+        "sash.hoverBorder": "#cd00da",
+        "statusBar.background": "#9d00a7",
+        "statusBar.foreground": "#e7e7e7",
+        "statusBarItem.hoverBackground": "#cd00da",
+        "statusBarItem.remoteBackground": "#9d00a7",
+        "statusBarItem.remoteForeground": "#e7e7e7",
+        "titleBar.activeBackground": "#9d00a7",
+        "titleBar.activeForeground": "#e7e7e7",
+        "titleBar.inactiveBackground": "#9d00a799",
+        "titleBar.inactiveForeground": "#e7e7e799"
+    },
+    "peacock.remoteColor": "#9d00a7"
+}
