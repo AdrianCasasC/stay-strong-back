@@ -1,10 +1,15 @@
 import { calendarJSON } from '../../calendar.js';
+import Calendar from '../schemas/calendar.js';
 
 export class CalendarModel {
 	static async getAll({ year, month }) {
-		const foundDayDetails = calendarJSON.find((calendar) => calendar.year === year && calendar.month === month);
-		if (!foundDayDetails) return [];
-		return foundDayDetails;
+		try {
+			const calendarData = await Calendar.find();
+			console.log("calendarData: ", calendarData);
+			return calendarData;
+		} catch (err) {
+			return [{error: err}];
+		}
 	}
 
 	static async getCurrPrevNext({ year, month }) {
