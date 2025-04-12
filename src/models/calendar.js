@@ -8,17 +8,23 @@ export class CalendarModel {
 			console.log("calendarData: ", calendarData);
 			return calendarData;
 		} catch (err) {
-			return [{ error: err }];
+			return { status: 500, message: "Error retreiving all calendar data" };
 		}
 	}
 
 	static async getDay(dayId) {
 		try {
-			const calendarData = await Calendar.find();
-			console.log("calendarData: ", calendarData);
-			return calendarData;
+			const calendar = await Calendar.findOne({
+				"days.id": dayId
+			});
+			if (calendar) {
+				const day = calendar.days.find(day => day.id === dayId);
+				return { status: 200, day };
+			} else {
+				return { status: 404, message: 'Day not found' };
+			}
 		} catch (err) {
-			return [{ error: err }];
+			return { status: 500, message: "Error getting calendar day" };
 		}
 	}
 

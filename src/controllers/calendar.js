@@ -10,7 +10,7 @@ export class CalendarController {
 	}
 
 	static async getDay(req, res) {
-		const { dayId } = req.query;
+		const { dayId } = req.params;
 		const dayResponse = await CalendarModel.getDay(dayId);
 		if (dayResponse.status === 200) {
 			res.status(dayResponse.status).json(dayResponse);
