@@ -14,13 +14,15 @@ app.use(json());
 app.use(corsMiddleware());
 app.disable('x-powered-by');
 
-mongoose.connect(process.env.MONGO_URI, {
+const mongoUri = process.env.MONGO_URI || Netlify.env.get('MONGO_URI');
+
+mongoose.connect(mongoUri, {
 	useNewUrlParser: true,
 	useUnifiedTopology: true,
 	dbName: 'expense_tracker'
-  })
-  .then(() => console.log('MongoDB connected'))
-  .catch(err => console.error('MongoDB connection error:', err));
+})
+	.then(() => console.log('MongoDB connected'))
+	.catch(err => console.error('MongoDB connection error:', err));
 
 app.use('/api/day-details', dayDetailsRouter);
 app.use('/api/calendar', calendarRouter);
