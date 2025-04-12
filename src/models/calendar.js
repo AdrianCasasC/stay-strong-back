@@ -85,16 +85,24 @@ export class CalendarModel {
 		}
 	}
 
-	static async getCurrPrevNext({ year, month }) {
-		const prevYear = month === 1 ? parseInt(year) - 1 : parseInt(year);
-		const prevMonth = month === 1 ? 12 : parseInt(month) - 1;
-		const nextYear = month === 12 ? parseInt(year) + 1 : parseInt(year);
-		const nextMonth = month === 12 ? 1 : parseInt(month) + 1;
-		const foundDayDetails = calendarJSON.filter((calendar) =>
-			(calendar.year === parseInt(year) && calendar.month === parseInt(month)) ||
-			(calendar.year === prevYear && calendar.month === prevMonth) ||
-			(calendar.year === nextYear && calendar.month === nextMonth));
-		if (!foundDayDetails) return [];
-		return foundDayDetails;
+	static async getCurrPrevNext({ y, m }) {
+		const monthTargets = [
+			m === 1 ? { year: y - 1, month: 12 } : { year: y, month: m - 1 },
+			{ year: y, month: m },
+			m === 12 ? { year: y + 1, month: 1 } : { year: y, month: m + 1 }
+		];
+		try {
+			const calendars = await Calendar.find({
+				$or: monthTargets
+			});
+			const result = {
+				previous: calendars.find(cal => cal.year === monthTargets[0].year && cal.month === monthTargets[0].month) || null,
+				current: calendars.find(cal => cal.year === monthTargets[1].year && cal.month === monthTargets[1].month) || null,
+				next: calendars.find(cal => cal.year === monthTargets[2].year && cal.month === monthTargets[2].month) || null
+			};
+			return { status: 200, calendars: result };
+		} catch (err) {
+			return { status: 500, message: 'Error getting current, previous, and next months' };
+		}
 	}
 }

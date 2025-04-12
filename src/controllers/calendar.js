@@ -19,13 +19,6 @@ export class CalendarController {
 		}
 	}
 
-	static async getCurrPrevNext(req, res) {
-		const { year, month } = req.query;
-		const calendar = await CalendarModel.getCurrPrevNext({ year, month });
-		if (calendar) return res.json(calendar);
-		res.status(404).json({ message: 'Calendar prev, next not found' });
-	}
-
 	static async create(req, res) {
 		const calendar = await CalendarModel.create(req, res);
 		if (calendar.status === 201) {
@@ -44,9 +37,24 @@ export class CalendarController {
 		}
 		const result = await CalendarModel.updateDay(year, month, dayId, updatedDay);
 		if (result.status === 200) {
-			res.status(result.status).json(result);
-		} else {
-			res.status(result.status).send({ error: result.message });
+			return res.status(result.status).json(result);
 		}
+		res.status(result.status).send({ error: result.message });
+
+	}
+
+	static async getCurrPrevNext(req, res) {
+		const { year, month } = req.query;
+
+		if (!year || !month) {
+			return res.status(400).json({ error: 'Missing query parameters: year and month are required.' });
+		}
+
+		const y = Number(year);
+		const m = Number(month);
+
+		const calendar = await CalendarModel.getCurrPrevNext({ y, m });
+		if (calendar.status === 200) return res.json(calendar);
+		res.status(404).json({ message: 'Calendar prev, next not found' });
 	}
 }
