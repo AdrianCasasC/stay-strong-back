@@ -4,6 +4,7 @@ import { corsMiddleware } from '../src/middlewares/cors.js';
 import { config } from 'dotenv';
 import { dayDetailsRouter } from '../src/routes/day-details.js';
 import { calendarRouter } from '../src/routes/calendar.js';
+import mongoose from 'mongoose';
 
 config();
 
