@@ -8,7 +8,74 @@ export class CalendarModel {
 			console.log("calendarData: ", calendarData);
 			return calendarData;
 		} catch (err) {
-			return [{error: err}];
+			return [{ error: err }];
+		}
+	}
+
+	static async getDay(dayId) {
+		try {
+			const calendarData = await Calendar.find();
+			console.log("calendarData: ", calendarData);
+			return calendarData;
+		} catch (err) {
+			return [{ error: err }];
+		}
+	}
+
+	static async create(req, res) {
+		try {
+			const calendarData = req.body;
+			const calendar = new Calendar(calendarData);
+			await calendar.save();
+			return { status: 201, message: 'Calendar created successfully', calendar };
+		} catch (err) {
+			return { status: 500, message: 'Error creating calendar', error: err };
+		}
+	}
+
+	static async updateDay(year, month, dayId, updatedDay) {
+		try {
+			const calendar = await Calendar.findOne({
+				year: Number(year),
+				month: Number(month),
+				"days.id": dayId
+			});
+			if (calendar) {
+				const result = await Calendar.updateOne(
+					{
+						year: Number(year),
+						month: Number(month),
+						"days.id": dayId
+					},
+					{
+						$set: {
+							"days.$": updatedDay
+						}
+					}
+				);
+				if (result.modifiedCount === 0) {
+					return { status: 404, message: 'Day not found or already up to date.', calendar };
+				}
+				return { status: 200, message: 'Calendar day updated successfully', calendar };
+			} else {
+				const result = await Calendar.updateOne(
+					{
+						year: Number(year),
+						month: Number(month)
+					},
+					{
+						$push: { days: updatedDay }
+					}
+				);
+				if (result.matchedCount === 0) {
+					return { status: 404, message: 'Calendar not found.' };
+				}
+
+				return { status: 200, message: 'Day added successfully.' };
+			}
+
+		} catch (err) {
+			return { status: 500, message: 'Error creating calendar', error: err };
 		}
 	}
 
