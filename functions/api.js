@@ -14,7 +14,7 @@ app.use(json());
 app.use(corsMiddleware());
 app.disable('x-powered-by');
 
-const mongoUri = process.env.MONGO_URI || Netlify.env.get('MONGO_URI');
+const mongoUri = process.env.MONGO_URI || 'mongodb+srv://expense-tracker:Ls94f0gBap8PcRmr@cluster0.likmj.mongodb.net/?retryWrites=true&w=majority&appName=Cluster0';
 
 mongoose.connect(mongoUri, {
   useNewUrlParser: true,
