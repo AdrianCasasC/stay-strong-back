@@ -4,7 +4,7 @@ const taskSchema = new mongoose.Schema({
   steps: Boolean,
   calories: Boolean,
   training: Boolean,
-  supplementation: Boolean,
+  suplementation: Boolean,
   weight: Boolean,
 }, { _id: false });
 

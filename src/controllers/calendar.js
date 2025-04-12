@@ -13,7 +13,7 @@ export class CalendarController {
 		const { dayId } = req.params;
 		const dayResponse = await CalendarModel.getDay(dayId);
 		if (dayResponse.status === 200) {
-			res.status(dayResponse.status).json(dayResponse);
+			res.status(dayResponse.status).json(dayResponse.day);
 		} else {
 			res.status(dayResponse.status).send({ error: dayResponse.message });
 		}
@@ -35,9 +35,24 @@ export class CalendarController {
 		if (!year || !month || !dayId) {
 			return res.status(400).json({ error: 'Missing year, month, or dayId query parameter.' });
 		}
-		const result = await CalendarModel.updateDay(year, month, dayId, updatedDay);
+		const result = await CalendarModel.updateDay(year, month, dayId, { ...updatedDay, date: updatedDay.date.split('T')[0].replace(/-/g, '/') });
 		if (result.status === 200) {
-			return res.status(result.status).json(result);
+			return res.status(result.status).json(result.day);
+		}
+		res.status(result.status).send({ error: result.message });
+
+	}
+
+	static async addDay(req, res) {
+		const { year, month } = req.params;
+		const updatedDay = req.body;
+
+		if (!year || !month) {
+			return res.status(400).json({ error: 'Missing year or month query parameter.' });
+		}
+		const result = await CalendarModel.addDay(year, month, { ...updatedDay, date: updatedDay.date.split('T')[0].replace(/-/g, '/') });
+		if (result.status === 200) {
+			return res.status(result.status).json(result.day);
 		}
 		res.status(result.status).send({ error: result.message });
 

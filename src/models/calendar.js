@@ -59,26 +59,37 @@ export class CalendarModel {
 						}
 					}
 				);
+				const day = calendar.days.find(day => day.id === dayId)
 				if (result.modifiedCount === 0) {
-					return { status: 404, message: 'Day not found or already up to date.', calendar };
+					return { status: 404, message: 'Day not found or already up to date.', day };
 				}
-				return { status: 200, message: 'Calendar day updated successfully', calendar };
-			} else {
-				const result = await Calendar.updateOne(
-					{
-						year: Number(year),
-						month: Number(month)
-					},
-					{
-						$push: { days: updatedDay }
-					}
-				);
-				if (result.matchedCount === 0) {
-					return { status: 404, message: 'Calendar not found.' };
-				}
-
-				return { status: 200, message: 'Day added successfully.' };
+				console.log("Day updated!: ", updatedDay);
+				return { status: 200, message: 'Calendar day updated successfully', day };
 			}
+			return { status: 404, message: 'Calendar not found.', day: updatedDay };
+
+		} catch (err) {
+			return { status: 500, message: 'Error creating calendar', error: err };
+		}
+	}
+
+	static async addDay(year, month, updatedDay) {
+		try {
+			updatedDay["id"] = crypto.randomUUID()
+			const result = await Calendar.updateOne(
+				{
+					year: Number(year),
+					month: Number(month)
+				},
+				{
+					$push: { days: updatedDay }
+				}
+			);
+			if (result.matchedCount === 0) {
+				return { status: 404, message: 'Calendar not found.', day: updatedDay };
+			}
+			console.log("Day added: ", updatedDay);
+			return { status: 200, message: 'Day added successfully.', day: updatedDay };
 
 		} catch (err) {
 			return { status: 500, message: 'Error creating calendar', error: err };
