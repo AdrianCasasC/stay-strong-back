@@ -14,7 +14,9 @@ app.use(json());
 app.use(corsMiddleware());
 app.disable('x-powered-by');
 
-mongoose.connect(process.env.MONGO_URI, {
+const mongoUri = process.env.MONGO_URI || Netlify.env.get('MONGO_URI');
+
+mongoose.connect(mongoUri, {
   useNewUrlParser: true,
   useUnifiedTopology: true,
   dbName: 'expense_tracker'
