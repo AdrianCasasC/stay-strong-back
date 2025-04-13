@@ -12,6 +12,7 @@ const daySchema = new mongoose.Schema({
   id: String,
   date: String,
   tasks: taskSchema,
+  weightNumber: Number
 }, { _id: false });
 
 const calendarSchema = new mongoose.Schema({

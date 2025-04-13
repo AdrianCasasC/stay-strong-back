@@ -88,7 +88,6 @@ export class CalendarModel {
 			if (result.matchedCount === 0) {
 				return { status: 404, message: 'Calendar not found.', day: updatedDay };
 			}
-			console.log("Day added: ", updatedDay);
 			return { status: 200, message: 'Day added successfully.', day: updatedDay };
 
 		} catch (err) {
