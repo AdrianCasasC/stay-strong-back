@@ -9,3 +9,4 @@ calendarRouter.get('/day-detail/:dayId', CalendarController.getDay);
 calendarRouter.put('/update-day/:year/:month/:dayId', CalendarController.updateDay);
 calendarRouter.post('/update-day/:year/:month', CalendarController.addDay);
 calendarRouter.get('/prev-next', CalendarController.getCurrPrevNext);
+calendarRouter.get('/corporal-weight', CalendarController.getCorporalWeight);

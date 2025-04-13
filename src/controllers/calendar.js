@@ -72,4 +72,10 @@ export class CalendarController {
 		if (calendar.status === 200) return res.json(calendar);
 		res.status(404).json({ message: 'Calendar prev, next not found' });
 	}
+
+	static async getCorporalWeight(req, res) {
+		const result = await CalendarModel.getCorporalWeight();
+		if (result.status === 200) return res.json(result.weights);
+		res.status(404).json({ message: result.message });
+	}
 }

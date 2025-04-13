@@ -115,4 +115,26 @@ export class CalendarModel {
 			return { status: 500, message: 'Error getting current, previous, and next months' };
 		}
 	}
+
+	static async getCorporalWeight() {
+		try {
+			const calendars = await Calendar.find({});
+			const weightEntries = [];
+
+			calendars.forEach(calendar => {
+				calendar.days.forEach(day => {
+					if (typeof day.weightNumber === 'number') {
+						weightEntries.push({
+							date: day.date,
+							weight: day.weightNumber
+						});
+					}
+				});
+			});
+
+			return { status: 200, weights: weightEntries };
+		} catch (err) {
+			return { status: 500, message: 'Error getting corporal weights' };
+		}
+	}
 }
