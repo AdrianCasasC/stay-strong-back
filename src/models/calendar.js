@@ -1,4 +1,3 @@
-import { calendarJSON } from '../../calendar.js';
 import Calendar from '../schemas/calendar.js';
 
 export class CalendarModel {
@@ -92,6 +91,37 @@ export class CalendarModel {
 
 		} catch (err) {
 			return { status: 500, message: 'Error creating calendar', error: err };
+		}
+	}
+
+	static async findMonthByYearAndNumber({ year, month }) {
+		try {
+			const calendar = await Calendar.findOne({
+				year: Number(year),
+				month: Number(month)
+			});
+			if (calendar) {
+				return { status: 200, calendar };
+			} else {
+				console.log("Calendar not found: ", year, month);
+				return { status: 404, message: 'Calendar not found' };
+			}
+		} catch (err) {
+			return { status: 500, message: 'Error getting calendar month' };
+		}
+	}
+
+	static async insertMonthByYearAndNumber({ year, month }) {
+		try {
+			const newCalendar = new Calendar({
+				year: Number(year),
+				month: Number(month),
+				days: []
+			});
+			await newCalendar.save();
+			return { status: 201, message: 'Calendar month created successfully', calendar: newCalendar };
+		} catch (err) {
+			return { status: 500, message: 'Error creating calendar month', error: err };
 		}
 	}
 

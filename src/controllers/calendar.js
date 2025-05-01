@@ -50,6 +50,15 @@ export class CalendarController {
 		if (!year || !month) {
 			return res.status(400).json({ error: 'Missing year or month query parameter.' });
 		}
+		const currentMonthResponse = await CalendarModel.findMonthByYearAndNumber({ year , month });
+		if (currentMonthResponse.status === 404) {
+			const insertMonthResponse = await CalendarModel.insertMonthByYearAndNumber({ year , month });
+			if (insertMonthResponse.status !== 201) {
+				return res.status(insertMonthResponse.status).json({ error: insertMonthResponse.message });
+			}
+		} else if (currentMonthResponse.status !== 200) {
+			return res.status(currentMonthResponse.status).json({ error: currentMonthResponse.message });
+		}
 		const result = await CalendarModel.addDay(year, month, { ...updatedDay, date: updatedDay.date.split('T')[0].replace(/-/g, '/') });
 		if (result.status === 200) {
 			return res.status(result.status).json(result.day);
@@ -70,7 +79,7 @@ export class CalendarController {
 
 		const calendar = await CalendarModel.getCurrPrevNext({ y, m });
 		if (calendar.status === 200) return res.json(calendar);
-		res.status(404).json({ message: 'Calendar prev, next not found' });
+		res.status(404).json({ message: calendar.message });
 	}
 
 	static async getCorporalWeight(req, res) {
