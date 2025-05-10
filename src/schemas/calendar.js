@@ -8,11 +8,22 @@ const taskSchema = new mongoose.Schema({
   weight: Boolean,
 }, { _id: false });
 
+const seriesSchema = new mongoose.Schema({
+  repetitions: Number,
+  weight: Number,
+})
+
+const exercisesSchema = new mongoose.Schema({
+  name: String,
+  series: [seriesSchema],
+})
+
 const daySchema = new mongoose.Schema({
   id: String,
   date: String,
   tasks: taskSchema,
-  weightNumber: Number
+  weightNumber: Number,
+  exercises: [exercisesSchema],
 }, { _id: false });
 
 const calendarSchema = new mongoose.Schema({

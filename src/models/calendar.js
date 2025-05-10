@@ -62,7 +62,6 @@ export class CalendarModel {
 				if (result.modifiedCount === 0) {
 					return { status: 404, message: 'Day not found or already up to date.', day };
 				}
-				console.log("Day updated!: ", updatedDay);
 				return { status: 200, message: 'Calendar day updated successfully', day };
 			}
 			return { status: 404, message: 'Calendar not found.', day: updatedDay };
