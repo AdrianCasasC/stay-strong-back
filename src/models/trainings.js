@@ -1,14 +1,14 @@
 import Calendar from '../schemas/calendar.js';
 
 export class TrainingModel {
-	static async updateTraining(dayId, exercises) {
+	static async updateTraining(dayId, training) {
 		
 		try {
 			const result = await Calendar.updateOne(
 			{ "days.id": dayId },
 			{
 				$set: {
-				"days.$[day].exercises": exercises
+				"days.$[day].training": training
 				}
 			},
 			{
