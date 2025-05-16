@@ -5,7 +5,6 @@ import { config } from 'dotenv';
 import { calendarRouter } from './src/routes/calendar.js';
 import mongoose from 'mongoose';
 
-
 config();
 
 const app = express();
@@ -14,6 +13,9 @@ const port = process.env.PORT ?? 8080;
 app.use(json());
 app.use(corsMiddleware());
 app.disable('x-powered-by');
+
+console.log("MONGO_URI: ", process.env.MONGO_URI.replace('\x3a', ':'))
+console.log("MONGO_DB_NAME: ", process.env.MONGO_DB_NAME)
 
 mongoose.connect(process.env.MONGO_URI, {
 	useNewUrlParser: true,
