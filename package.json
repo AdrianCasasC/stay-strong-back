@@ -29,7 +29,7 @@
 		"orvelian-back": "file:",
 		"pdf-parse": "^1.1.1",
 		"serverless-http": "3.2.0",
-		"sharp": "^0.33.5",
+		"sharp": "^0.35.5",
 		"tesseract.js": "^6.0.1",
 		"uuid": "^11.0.5",
 		"zod": "3.24.1"
